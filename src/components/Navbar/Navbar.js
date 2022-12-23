@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import CartWidget from './CartWidget/CartWidget';
+import CartWidget from '../CartWidget/CartWidget';
 import { GiBlackKnightHelm } from "react-icons/gi";
 import {
   Box,
@@ -29,7 +29,8 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     rounded={'md'}
     _hover={{
       textDecoration: 'none',
-      bg: useColorModeValue('gray.200', 'gray.700'),
+      bg: useColorModeValue('green.300'),
+      color: 'black'
     }}
     href={'#'}>
     {children}
@@ -61,9 +62,9 @@ const Navbar = () => {
                 ))}
               </HStack>
             </HStack>
-            <Flex alignItems={'center'}>
+            
             <CartWidget/>
-            </Flex>
+            
           </Flex>
   
           {isOpen ? (

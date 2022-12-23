@@ -5,11 +5,7 @@ import {
   Heading,
   Container,
   Text,
-  Button,
-  Stack,
-  Icon,
-  useColorModeValue,
-  createIcon,
+  Stack
 } from '@chakra-ui/react';
 
 const ItemListContainer = () => {
@@ -32,7 +28,7 @@ const ItemListContainer = () => {
                 fontWeight={600}
                 fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
                 lineHeight={'110%'}>
-                Bienvenidos a <br />
+                Bienvenidos a<br />
                 <Text as={'span'} color={'green.400'}>
                   Templar Hardware
                 </Text>

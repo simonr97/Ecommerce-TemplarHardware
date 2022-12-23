@@ -1,9 +1,12 @@
 import { ReactNode } from 'react';
+import { Flex } from '@chakra-ui/react';
 import { BiCart } from "react-icons/bi";
 
 const CartWidget = () => {
     return (
-            <BiCart size="32px"/>
+        <Flex alignItems={'center'}>
+            <BiCart size="32px"/>0
+        </Flex>
     )
 }
 
