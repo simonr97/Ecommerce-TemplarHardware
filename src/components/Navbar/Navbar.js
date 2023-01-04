@@ -1,19 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode, React } from 'react';
 import CartWidget from '../CartWidget/CartWidget';
 import { GiBlackKnightHelm } from "react-icons/gi";
 import {
   Box,
   Flex,
-  Avatar,
   HStack,
   Link,
   IconButton,
-  Button,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  MenuDivider,
   useDisclosure,
   useColorModeValue,
   Stack,
@@ -24,6 +17,7 @@ const Links = ['Componentes', 'Arma Tu PC', 'Perifericos'];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <Link
+    color='#1A202C' 
     px={2}
     py={1}
     rounded={'md'}
@@ -50,6 +44,7 @@ const Navbar = () => {
               aria-label={'Open Menu'}
               display={{ md: 'none' }}
               onClick={isOpen ? onClose : onOpen}
+              color='#1A202C' 
             />
             <HStack h={16} spacing={8} alignItems={'center'}>
               <GiBlackKnightHelm  size="32px" />

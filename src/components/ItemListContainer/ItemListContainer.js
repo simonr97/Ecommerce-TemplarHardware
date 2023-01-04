@@ -1,5 +1,6 @@
-import { ReactNode } from 'react';
+import { React } from 'react';
 import Head from 'next/head';
+import ItemCount from '../ItemCount/ItemCount.js'
 import {
   Box,
   Heading,
@@ -8,7 +9,10 @@ import {
   Stack
 } from '@chakra-ui/react';
 
-const ItemListContainer = () => {
+const ItemListContainer = (props) => {
+
+  const stock = 10
+
     return (
         <>
           <Head>
@@ -28,9 +32,9 @@ const ItemListContainer = () => {
                 fontWeight={600}
                 fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
                 lineHeight={'110%'}>
-                Bienvenidos a<br />
+                {props.welcomeText1}<br />
                 <Text as={'span'} color={'green.400'}>
-                  Templar Hardware
+                {props.welcomeText2}
                 </Text>
               </Heading>
               <Text color={'gray.500'}>
@@ -44,7 +48,9 @@ const ItemListContainer = () => {
                 position={'relative'}>
               </Stack>
             </Stack>
+            <ItemCount onAdd={(count) => console.log(count)} stock={stock}/>
           </Container>
+          
         </>
       );
 }
