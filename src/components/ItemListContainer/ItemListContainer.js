@@ -1,6 +1,7 @@
 import { React } from 'react';
 import Head from 'next/head';
 import ItemCount from '../ItemCount/ItemCount.js'
+import ItemList from '../ItemList/ItemList.js' 
 import {
   Box,
   Heading,
@@ -9,7 +10,7 @@ import {
   Stack
 } from '@chakra-ui/react';
 
-const ItemListContainer = (props) => {
+const ItemListContainer = ({welcomeText1, welcomeText2}) => {
 
   const stock = 10
 
@@ -22,35 +23,29 @@ const ItemListContainer = (props) => {
             />
           </Head>
     
-          <Container maxW={'3xl'}>
+          <Container maxW={'8xl'}>
             <Stack
               as={Box}
               textAlign={'center'}
-              spacing={{ base: 8, md: 14 }}
               py={{ base: 20, md: 36 }}>
               <Heading
                 fontWeight={600}
                 fontSize={{ base: '2xl', sm: '4xl', md: '6xl' }}
                 lineHeight={'110%'}>
-                {props.welcomeText1}<br />
+                {welcomeText1}<br />
                 <Text as={'span'} color={'green.400'}>
-                {props.welcomeText2}
+                {welcomeText2}
                 </Text>
               </Heading>
               <Text color={'gray.500'}>
-               Work in Progress
+              Work in Progress
               </Text>
-              <Stack
-                direction={'column'}
-                spacing={3}
-                align={'center'}
-                alignSelf={'center'}
-                position={'relative'}>
-              </Stack>
             </Stack>
-            <ItemCount onAdd={(count) => console.log(count)} stock={stock}/>
+            <ItemList/>
           </Container>
-          
+          <Container maxW='container.full'> 
+          </Container>
+          <ItemCount onAdd={(count) => console.log(count)} stock={stock}/>
         </>
       );
 }
