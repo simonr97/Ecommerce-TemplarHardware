@@ -1,5 +1,6 @@
 import { getProducts } from '../../asyncMock.js'
 import { useEffect, useState } from 'react'
+import ItemCount from '../ItemCount/ItemCount.js'
 import { Spinner,
     Box,
     chakra,
@@ -185,21 +186,7 @@ const ItemDetail = () =>{
             </Box> */}
           </Stack>
 
-          <Button
-            rounded={'none'}
-            w={'full'}
-            mt={8}
-            size={'lg'}
-            py={'7'}
-            bg='gray.900'
-            color='white'
-            textTransform={'uppercase'}
-            _hover={{
-              transform: 'translateY(2px)',
-              boxShadow: 'lg',
-            }}>
-            Add to cart
-          </Button>
+          <ItemCount onAdd={(count) => console.log(count)} stock={stock}/>
 
           <Stack direction="row" alignItems="center" justifyContent={'center'}>
             <MdLocalShipping />

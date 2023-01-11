@@ -9,12 +9,11 @@ const Item = (productList) =>{
 
     return(
         <Card 
-        
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)} 
         bg='White' maxW='sm'
         boxShadow='md'
-        //{hover? boxShadow='md':boxShadow='xl'}
+        // {hover? boxShadow='md':boxShadow='xl'}
         >
   <CardBody >
     <Box align="center">

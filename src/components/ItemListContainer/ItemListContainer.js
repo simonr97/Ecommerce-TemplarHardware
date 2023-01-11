@@ -1,6 +1,5 @@
 import { React } from 'react';
 import Head from 'next/head';
-import ItemCount from '../ItemCount/ItemCount.js'
 import ItemList from '../ItemList/ItemList.js' 
 import {
   Box,
@@ -11,9 +10,6 @@ import {
 } from '@chakra-ui/react';
 
 const ItemListContainer = ({welcomeText1, welcomeText2}) => {
-
-  const stock = 10
-
     return (
         <>
           <Head>
@@ -45,7 +41,7 @@ const ItemListContainer = ({welcomeText1, welcomeText2}) => {
           </Container>
           <Container maxW='container.full'> 
           </Container>
-          <ItemCount onAdd={(count) => console.log(count)} stock={stock}/>
+          
         </>
       );
 }
