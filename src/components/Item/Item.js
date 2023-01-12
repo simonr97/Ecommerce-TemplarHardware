@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Box, useColorModeValue, Card, Image, CardBody, CardFooter, Stack, Heading, Text, Divider, ButtonGroup, Button } from '@chakra-ui/react'
+import { Collapse ,Box, useColorModeValue, Card, Image, CardBody, CardFooter, Stack, Heading, Text, Divider, ButtonGroup, Button } from '@chakra-ui/react'
 
 const Item = (productList) =>{
 
@@ -12,8 +12,7 @@ const Item = (productList) =>{
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)} 
         bg='White' maxW='sm'
-        boxShadow='md'
-        // {hover? boxShadow='md':boxShadow='xl'}
+        boxShadow={!hover? 'md':'2xl'}
         >
   <CardBody >
     <Box align="center">
@@ -36,6 +35,7 @@ const Item = (productList) =>{
     </Stack>
   </CardBody>
   <CardFooter>
+  <Collapse in={hover} animateOpacity>
     <ButtonGroup spacing='2'>
     <Button 
       mt={1}
@@ -52,6 +52,7 @@ const Item = (productList) =>{
         Agregar al carrito
       </Button>
     </ButtonGroup>
+    </Collapse>
   </CardFooter>
 </Card>
     )
