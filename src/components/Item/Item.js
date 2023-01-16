@@ -1,13 +1,16 @@
 import { useEffect, useState } from 'react'
+import { Link as RouteLink } from "react-router-dom";
 import { Collapse ,Box, useColorModeValue, Card, Image, CardBody, CardFooter, Stack, Heading, Text, Divider, ButtonGroup, Button } from '@chakra-ui/react'
 
 const Item = (productList) =>{
 
   const [hover, setHover] = useState(false)
   
-  const {key,name,price,category,img,stock,description} = productList.product
+  const {id,name,price,category,img,stock,description} = productList.product
+
 
     return(
+      <RouteLink to={`/item/${id}`}>
         <Card 
         onMouseEnter={() => setHover(true)}
         onMouseLeave={() => setHover(false)} 
@@ -55,6 +58,7 @@ const Item = (productList) =>{
     </Collapse>
   </CardFooter>
 </Card>
+</RouteLink>
     )
 }
 

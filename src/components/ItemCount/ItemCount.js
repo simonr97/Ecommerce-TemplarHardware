@@ -24,7 +24,7 @@ const ItemCount = ({stock, onAdd}) => {
        disabled = {stock === count? true:false}>
         +
     </Button>
-    <Input value={count} />
+    <Input readOnly={true} value={count} />
     <Button 
         bg='green.400'
         color='#1A202C' 

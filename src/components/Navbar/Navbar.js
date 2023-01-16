@@ -1,23 +1,25 @@
 import { ReactNode, React } from 'react';
+import './Navbar.css'  
+import { Link as RouteLink, NavLink as RouteNavLink} from "react-router-dom";
 import CartWidget from '../CartWidget/CartWidget';
 import { GiBlackKnightHelm } from "react-icons/gi";
 import {
   Box,
   Flex,
   HStack,
-  Link,
   IconButton,
   useDisclosure,
   useColorModeValue,
   Stack,
+  Link
 } from '@chakra-ui/react';
 import { HamburgerIcon, CloseIcon } from '@chakra-ui/icons';
 
-const Links = ['Componentes', 'Arma Tu PC', 'Perifericos'];
+const Links = ['Fuente', 'Motherboard', 'Microprocesador','Placa de Video'];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
+  <RouteNavLink className={({isActive}) => isActive? 'CategorySelect' : console.log('false') } to={`/category/${children}`}>
   <Link
-    color='#1A202C' 
     px={2}
     py={1}
     rounded={'md'}
@@ -29,6 +31,7 @@ const NavLink = ({ children }: { children: ReactNode }) => (
     href={'#'}>
     {children}
   </Link>
+  </RouteNavLink>
 );
 
 const Navbar = () => {
@@ -47,7 +50,7 @@ const Navbar = () => {
               color='#1A202C' 
             />
             <HStack h={16} spacing={8} alignItems={'center'}>
-              <GiBlackKnightHelm  size="32px" />
+            <RouteLink to='/'><GiBlackKnightHelm  size="32px" /></RouteLink>
               <HStack
                 as={'nav'}
                 spacing={4}
@@ -55,6 +58,20 @@ const Navbar = () => {
                 {Links.map((link) => (
                   <NavLink key={link}>{link}</NavLink>
                 ))}
+                {/* <RouteNavLink className={({isActive}) => isActive? 'CategorySelect' : console.log('entro') } to={`/category/Placa de Video`}>
+                <Link 
+                  px={2}
+                  py={1}
+                  rounded={'md'}
+                  _hover={{
+                            textDecoration: 'none',
+                            bg: useColorModeValue('green.300'),
+                            color: 'black'
+                          }}
+                    href={'#'}>
+                    {'Placa de Video'}
+                </Link>
+               </RouteNavLink> */}
               </HStack>
             </HStack>
             

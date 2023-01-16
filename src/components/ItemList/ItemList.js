@@ -1,27 +1,31 @@
 import { useEffect, useState } from 'react'
+import { useParams } from "react-router-dom";
 import Item from '../Item/Item.js'
 import { SimpleGrid,Spinner,Text,Box } from '@chakra-ui/react'
-import { getProducts } from '../../asyncMock.js'
+import { getProducts,getProductsByCategory } from '../../asyncMock.js'
 
 const ItemList = () =>{
 
     const [products, setProducts] = useState([])
     const [loading, setLoading] = useState(true)
 
-    console.log(products);
+    const {categoryId} = useParams()
 
     useEffect(() => {
-        getProducts().then(prod => {
-          setProducts(prod)
-        }).catch(err =>{
-            console.log(err)
-        }).finally(()=>{
-            setLoading(false)
-        })
-    },[])
+        setLoading(true)
+
+        const asyncFunction = !categoryId ? getProducts:getProductsByCategory
+
+        asyncFunction(categoryId).then(prod => {
+                setProducts(prod)
+            }).catch(err =>{
+                console.log(err)
+            }).finally(()=>{
+                setLoading(false)
+            })
+        },[categoryId])
 
     if (loading) {
-        console.log('spinner')
         return (
             <Box  
                 m={10} 

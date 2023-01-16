@@ -1,0 +1,9 @@
+.CategorySelect{
+    text-decoration: 'none';
+    color: #1A202C;
+    background-color: #68D391;
+    border-radius: 0.375rem;
+    padding-inline-start: 0 0.5rem 0 0.5rem; 
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+}
