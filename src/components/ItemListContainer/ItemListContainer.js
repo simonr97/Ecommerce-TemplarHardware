@@ -1,6 +1,9 @@
 import { React } from 'react';
+import { useEffect, useState } from 'react'
+import { useParams } from "react-router-dom";
 import Head from 'next/head';
-import ItemList from '../ItemList/ItemList.js' 
+import ItemList from '../ItemList/ItemList.js'
+import { getProducts,getProductsByCategory } from '../../asyncMock.js'
 import {
   Box,
   Heading,
@@ -10,6 +13,26 @@ import {
 } from '@chakra-ui/react';
 
 const ItemListContainer = ({welcomeText1, welcomeText2}) => {
+
+    const [products, setProducts] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    const {categoryId} = useParams()
+
+    useEffect(() => {
+        setLoading(true)
+
+        const asyncFunction = !categoryId ? getProducts:getProductsByCategory
+
+        asyncFunction(categoryId).then(prod => {
+                setProducts(prod)
+            }).catch(err =>{
+                console.log(err)
+            }).finally(()=>{
+                setLoading(false)
+            })
+        },[categoryId])
+
     return (
         <>
           <Head>
@@ -37,11 +60,10 @@ const ItemListContainer = ({welcomeText1, welcomeText2}) => {
               Work in Progress
               </Text>
             </Stack>
-            <ItemList/>
+            <ItemList products={products} loading={loading}/>
           </Container>
           <Container maxW='container.full'> 
           </Container>
-          
         </>
       );
 }

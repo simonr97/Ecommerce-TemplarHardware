@@ -10,22 +10,30 @@ import {
     SimpleGrid,
     StackDivider,
     List,
-    ListItem
-} from '@chakra-ui/react'
+    ListItem,
+    Button
+} from '@chakra-ui/react';
+import { useState } from 'react';
+import { Link as RouteLink} from "react-router-dom";
 import { MdLocalShipping } from 'react-icons/md';
 import ItemCount from '../ItemCount/ItemCount.js'
 
 
 const ItemDetail = ({product}) => {
-console.log(product[0])
+
 const {key,name,smallDescription,price,category,img,stock,description} = product
 
 let features = [...description]
 
 let arr = features.splice(0, (features.length)/2);
 
-console.log('arr',arr);
-console.log('description',features);
+const [quantity, setQuantity] = useState(0);
+
+const handleOnAdd = (qty) => {
+  setQuantity(qty)
+}
+
+console.log(quantity);
 
     return(
         <Container boxShadow='md' bg='white' maxW={'7xl'}>
@@ -106,9 +114,30 @@ console.log('description',features);
             </Box>
           </Stack>
 
-          <ItemCount onAdd={(count) => console.log(count)} stock={stock}/>
-
+          
+          {quantity > 0 ? (
+            <Box align="center" justify="center">
+            <RouteLink to='/cart'>
+              <Button
+                mt={1}
+                bg='green.400' 
+                color='#1A202C' 
+                _hover={{
+                          textDecoration: 'none',
+                          bg: 'green.300',
+                          color: 'black'
+                        }}
+                >
+                  Terminar Compra
+                </Button>
+              </RouteLink>
+              </Box>
+          ) : 
+          <ItemCount onAdd={handleOnAdd} stock={stock}/>}
+          
+          
           <Stack direction="row" alignItems="center" justifyContent={'center'}>
+          <Text></Text>
             <MdLocalShipping />
             <Text>2-3 business days delivery</Text>
           </Stack>

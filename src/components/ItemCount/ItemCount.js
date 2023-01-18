@@ -4,14 +4,14 @@ import {
     Button,
     useColorModeValue,
     HStack,
-    Input,
+    Text,
   } from '@chakra-ui/react';
 
-const ItemCount = ({stock, onAdd}) => {  
+const ItemCount = ({stock, onAdd, onBuy}) => {  
   const [count, setCount] = useState(1)
     return(
          <>
-    <HStack maxW='320px'>
+    <HStack align="center" justify="center">
     <Button 
         bg='green.400' 
         color='#1A202C' 
@@ -24,7 +24,7 @@ const ItemCount = ({stock, onAdd}) => {
        disabled = {stock === count? true:false}>
         +
     </Button>
-    <Input readOnly={true} value={count} />
+    <Text px={10}>{count}</Text>
     <Button 
         bg='green.400'
         color='#1A202C' 
