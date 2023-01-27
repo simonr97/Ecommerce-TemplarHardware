@@ -1,4 +1,4 @@
-import { ReactNode, React } from "react";
+import { ReactNode, React, useContext } from "react";
 import "./Navbar.css";
 import { Link as RouteLink, NavLink as RouteNavLink } from "react-router-dom";
 import CartWidget from "../CartWidget/CartWidget";
@@ -14,14 +14,13 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import { CartContext } from "../../context/CartContext";
 
 const Links = ["Fuente", "Motherboard", "Microprocesador", "Placa de Video"];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <RouteNavLink
-    className={({ isActive }) =>
-      isActive ? "CategorySelect" : console.log("false")
-    }
+    className={({ isActive }) => (isActive ? "CategorySelect" : "")}
     to={`/category/${children}`}
   >
     <Link
@@ -42,6 +41,8 @@ const NavLink = ({ children }: { children: ReactNode }) => (
 
 const Navbar = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const { count } = useContext(CartContext);
 
   return (
     <>
@@ -70,7 +71,7 @@ const Navbar = () => {
             </HStack>
           </HStack>
 
-          <CartWidget />
+          <CartWidget totalCount={count} />
         </Flex>
 
         {isOpen ? (

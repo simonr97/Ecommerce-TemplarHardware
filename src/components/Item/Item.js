@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from "react";
-import { Link as RouteLink } from "react-router-dom";
+import { Link as RouteLink, useLocation } from "react-router-dom";
 import {
   Collapse,
   Box,
@@ -64,7 +64,16 @@ const Item = (productList) => {
               <RouteLink to={"/cart"}>
                 <Button
                   onClick={() => {
-                    addItem({ id, price, qty });
+                    addItem({
+                      id,
+                      name,
+                      price,
+                      category,
+                      img,
+                      stock,
+                      description,
+                      qty,
+                    });
                   }}
                   mt={1}
                   bg="green.400"
@@ -78,10 +87,19 @@ const Item = (productList) => {
                   Comprar
                 </Button>
               </RouteLink>
-              <RouteLink to={"/"}>
+              <RouteLink to={useLocation().pathname}>
                 <Button
                   onClick={() => {
-                    addItem({ id, price, qty });
+                    addItem({
+                      id,
+                      name,
+                      price,
+                      category,
+                      img,
+                      stock,
+                      description,
+                      qty,
+                    });
                   }}
                   variant="ghost"
                   colorScheme="black"

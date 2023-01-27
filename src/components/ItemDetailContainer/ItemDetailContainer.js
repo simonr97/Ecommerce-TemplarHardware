@@ -1,43 +1,61 @@
-import { getProductsById } from '../../asyncMock.js'
-import { useEffect, useState } from 'react'
+import { getProductsById } from "../../asyncMock.js";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import ItemDetail from '../ItemDetail/ItemDetail.js'
-import { Spinner,Box,Text} from '@chakra-ui/react'
+import ItemDetail from "../ItemDetail/ItemDetail.js";
+import { Spinner, Box, Text } from "@chakra-ui/react";
+import { getDoc, doc } from "firebase/firestore";
+import { db } from "../../services/Firebase/firebaseConfig";
 
+const ItemDetailContainer = () => {
+  const [products, setProducts] = useState([]);
 
+  const [loading, setLoading] = useState(true);
 
-const ItemDetailContainer = () =>{
+  const { productId } = useParams();
+  console.log(productId);
 
-    const [products, setProducts] = useState([])
+  useEffect(() => {
+    const docRef = doc(db, "products", productId);
 
-    const [loading, setLoading] = useState(true)
+    getDoc(docRef)
+      .then((response) => {
+        const data = response.data();
+        const productAdapted = { id: response.id, ...data };
+        console.log(productAdapted);
+        setProducts(productAdapted);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+    // getProductsById(productId)
+    //   .then((prod) => {
+    //     setProducts(prod);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
+  }, [productId]);
 
-    const {productId} = useParams()
+  console.log();
 
-    useEffect(() => {
-        getProductsById(productId).then(prod => {
-          setProducts(prod)
-        }).catch(err =>{
-            console.log(err)
-        }).finally(()=>{
-            setLoading(false)
-        })
-    },[productId])
+  if (loading) {
+    return (
+      <Box m={10} textAlign={"center"}>
+        <Spinner size="xl" />
+        <Text colorScheme="black" fontSize="2xl">
+          Cargando...
+        </Text>
+      </Box>
+    );
+  }
 
-    if (loading) {
-        return (
-            <Box  
-                m={10} 
-                textAlign={'center'}>
-                <Spinner size='xl'/>
-                <Text colorScheme='black' fontSize='2xl'>Cargando...</Text>
-            </Box>
-        )
-    }
+  return <ItemDetail product={products} />;
+};
 
-    return(
-        <ItemDetail product={products} />
-    )
-}
-
-export default ItemDetailContainer
+export default ItemDetailContainer;

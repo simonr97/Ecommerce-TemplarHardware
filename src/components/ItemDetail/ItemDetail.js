@@ -20,16 +20,19 @@ import ItemCount from "../ItemCount/ItemCount.js";
 import { CartContext } from "../../context/CartContext";
 
 const ItemDetail = ({ product }) => {
+  console.log(product);
   const {
-    id,
-    name,
-    smallDescription,
-    price,
     category,
-    img,
-    stock,
     description,
+    id,
+    img,
+    name,
+    price,
+    smallDescription,
+    stock,
   } = product;
+
+  console.log(id, category, price);
 
   const { addItem, isInCart, removeItem, clear } = useContext(CartContext);
 
@@ -41,11 +44,21 @@ const ItemDetail = ({ product }) => {
 
   const handleOnAdd = (qty) => {
     setQuantity(qty);
-    addItem({ id, price, qty });
+    addItem({
+      category,
+      description,
+      id,
+      img,
+      name,
+      price,
+      smallDescription,
+      stock,
+      qty,
+    });
   };
 
   return (
-    <Container boxShadow="md" bg="white" maxW={"7xl"}>
+    <Container boxShadow="md" bg="white" maxW={{ base: "3xl", lg: "7xl" }}>
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
@@ -113,7 +126,21 @@ const ItemDetail = ({ product }) => {
             </Box>
           </Stack>
 
-          <ItemCount onAdd={handleOnAdd} stock={stock} />
+          <ItemCount onAdd={handleOnAdd} stock={stock} id={id} />
+          <Button
+            onClick={() => {
+              removeItem(id);
+            }}
+          >
+            removeItem
+          </Button>
+          <Button
+            onClick={() => {
+              clear();
+            }}
+          >
+            clear
+          </Button>
           {isInCart(id) && (
             <Box align="center" justify="center">
               <RouteLink to="/cart">

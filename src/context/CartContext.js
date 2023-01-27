@@ -4,6 +4,7 @@ export const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
+  let count = 0;
 
   const addItem = (item) => {
     if (!isInCart(item.id)) {
@@ -13,28 +14,31 @@ export const CartProvider = ({ children }) => {
     } else {
       cart[cart.findIndex((p) => p.id === item.id)].qty += item.qty;
     }
-    console.log(cart);
   };
 
   const removeItem = (id) => {
-    cart.splice(
-      cart.findIndex((p) => p.id === id),
+    let duplicatedCart = [...cart];
+    duplicatedCart.splice(
+      duplicatedCart.findIndex((p) => p.id === id),
       1
     );
-    console.log(cart);
+    setCart(duplicatedCart);
+    count = cart.length - 1;
   };
 
   const clear = () => {
     setCart([]);
-    console.log(cart);
+    count = 0;
   };
 
   const isInCart = (id) => cart.some((product) => product.id === id);
 
-  console.log(cart);
+  count = cart.length;
 
   return (
-    <CartContext.Provider value={{ addItem, isInCart, removeItem, clear }}>
+    <CartContext.Provider
+      value={{ addItem, isInCart, removeItem, clear, count, cart }}
+    >
       {children}
     </CartContext.Provider>
   );
