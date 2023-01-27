@@ -1,5 +1,4 @@
 import { CartContext } from "../../context/CartContext";
-import CartWidget from "../CartWidget/CartWidget";
 import { useContext, useState, useEffect } from "react";
 import { Link as RouteLink } from "react-router-dom";
 import { CartItem } from "./CartItem";

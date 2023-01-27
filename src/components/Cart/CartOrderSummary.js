@@ -10,6 +10,7 @@ import {
 import * as React from "react";
 import { FaArrowRight } from "react-icons/fa";
 import { formatPrice } from "./PriceTag";
+import { Link as RouteLink } from "react-router-dom";
 
 type OrderSummaryItemProps = {
   label: string,
@@ -62,14 +63,16 @@ export const CartOrderSummary = ({ total }) => {
           </Text>
         </Flex>
       </Stack>
-      <Button
-        colorScheme="blue"
-        size="lg"
-        fontSize="md"
-        rightIcon={<FaArrowRight />}
-      >
-        Checkout
-      </Button>
+      <RouteLink to={"/checkout"}>
+        <Button
+          colorScheme="blue"
+          size="lg"
+          fontSize="md"
+          rightIcon={<FaArrowRight />}
+        >
+          Checkout
+        </Button>
+      </RouteLink>
     </Stack>
   );
 };

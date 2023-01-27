@@ -1,5 +1,6 @@
 import Navbar from "./components/Navbar/Navbar";
 import ItemListContainer from "./components/ItemListContainer/ItemListContainer";
+import Checkout from "./components/Checkout/Checkout";
 import ItemDetailContainer from "./components/ItemDetailContainer/ItemDetailContainer";
 import Cart from "./components/Cart/Cart";
 import { ChakraProvider } from "@chakra-ui/react";
@@ -33,6 +34,7 @@ function App() {
             />
             <Route path="/item/:productId" element={<ItemDetailContainer />} />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </BrowserRouter>
       </ChakraProvider>

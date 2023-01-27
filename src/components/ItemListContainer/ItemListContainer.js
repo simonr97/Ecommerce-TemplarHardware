@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Head from "next/head";
 import ItemList from "../ItemList/ItemList.js";
-import { getProducts, getProductsByCategory } from "../../asyncMock.js";
 import { Box, Heading, Container, Text, Stack } from "@chakra-ui/react";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../../services/Firebase/firebaseConfig";
@@ -35,19 +34,6 @@ const ItemListContainer = ({ welcomeText1, welcomeText2 }) => {
       .finally(() => {
         setLoading(false);
       });
-
-    // const asyncFunction = !categoryId ? getProducts : getProductsByCategory;
-
-    // asyncFunction(categoryId)
-    //   .then((prod) => {
-    //     setProducts(prod);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
   }, [categoryId]);
 
   return (

@@ -1,4 +1,3 @@
-import { getProductsById } from "../../asyncMock.js";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ItemDetail from "../ItemDetail/ItemDetail.js";
@@ -30,16 +29,6 @@ const ItemDetailContainer = () => {
       .finally(() => {
         setLoading(false);
       });
-    // getProductsById(productId)
-    //   .then((prod) => {
-    //     setProducts(prod);
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
   }, [productId]);
 
   console.log();
