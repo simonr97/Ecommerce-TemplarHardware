@@ -127,20 +127,6 @@ const ItemDetail = ({ product }) => {
           </Stack>
 
           <ItemCount onAdd={handleOnAdd} stock={stock} id={id} />
-          <Button
-            onClick={() => {
-              removeItem(id);
-            }}
-          >
-            removeItem
-          </Button>
-          <Button
-            onClick={() => {
-              clear();
-            }}
-          >
-            clear
-          </Button>
           {isInCart(id) && (
             <Box align="center" justify="center">
               <RouteLink to="/cart">

@@ -1,6 +1,14 @@
 import { CartContext } from "../../context/CartContext";
 import { useContext, useState, useEffect } from "react";
-import { Text, Button, Box } from "@chakra-ui/react";
+import {
+  Text,
+  Button,
+  Box,
+  Container,
+  Stack,
+  Heading,
+  Spinner,
+} from "@chakra-ui/react";
 import {
   query,
   collection,
@@ -95,16 +103,114 @@ const Checkout = () => {
   };
 
   if (loading) {
-    return <Text>Generando orden</Text>;
+    return (
+      <Box
+        bg="white"
+        maxW={{ base: "3xl", lg: "7xl" }}
+        mx="auto"
+        px={{ base: "4", md: "8", lg: "12" }}
+        py={{ base: "6", md: "8", lg: "12" }}
+        boxShadow="md"
+      >
+        <Box m={10} textAlign={"center"}>
+          <Spinner size="xl" />
+          <Text colorScheme="black" fontSize="2xl">
+            Cargando...
+          </Text>
+        </Box>
+      </Box>
+    );
   }
   if (orderId) {
-    return <Text>El ID de su compra es {orderId}</Text>;
+    return (
+      <Box
+        bg="white"
+        maxW={{ base: "3xl", lg: "7xl" }}
+        mx="auto"
+        px={{ base: "4", md: "8", lg: "12" }}
+        py={{ base: "6", md: "8", lg: "12" }}
+        boxShadow="md"
+      >
+        <Container maxW={"3xl"}>
+          <Stack
+            as={Box}
+            textAlign={"center"}
+            spacing={{ base: 8, md: 14 }}
+            py={{ base: 20, md: 36 }}
+          >
+            <Heading
+              fontWeight={600}
+              fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+              lineHeight={"110%"}
+            >
+              Compra Realizada!
+              <br />
+              <Text as={"span"} color={"green.400"}>
+                El ID de tu compra es {orderId}
+              </Text>
+            </Heading>
+            <Stack
+              direction={"column"}
+              spacing={3}
+              align={"center"}
+              alignSelf={"center"}
+              position={"relative"}
+            ></Stack>
+          </Stack>
+        </Container>
+      </Box>
+    );
   }
 
   return (
-    <Box>
-      <Text>Checkout</Text>
-      <Button onClick={generarOrden}>Generar Orden</Button>
+    <Box
+      bg="white"
+      maxW={{ base: "3xl", lg: "7xl" }}
+      mx="auto"
+      px={{ base: "4", md: "8", lg: "12" }}
+      py={{ base: "6", md: "8", lg: "12" }}
+      boxShadow="md"
+    >
+      <Container maxW={"3xl"}>
+        <Stack
+          as={Box}
+          textAlign={"center"}
+          spacing={{ base: 8, md: 14 }}
+          py={{ base: 20, md: 36 }}
+        >
+          <Heading
+            fontWeight={600}
+            fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+            lineHeight={"110%"}
+          >
+            Orden Generada
+            <br />
+            <Text as={"span"} color={"green.400"}>
+              Haga click para confirmar la compra
+            </Text>
+          </Heading>
+          <Stack
+            direction={"column"}
+            spacing={3}
+            align={"center"}
+            alignSelf={"center"}
+            position={"relative"}
+          >
+            <Button
+              onClick={generarOrden}
+              colorScheme={"green"}
+              bg={"green.400"}
+              rounded={"full"}
+              px={6}
+              _hover={{
+                bg: "green.200",
+              }}
+            >
+              Generar Orden
+            </Button>
+          </Stack>
+        </Stack>
+      </Container>
     </Box>
   );
 };
