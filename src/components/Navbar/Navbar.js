@@ -2,6 +2,7 @@ import { ReactNode, React, useContext } from "react";
 import "./Navbar.css";
 import { Link as RouteLink, NavLink as RouteNavLink } from "react-router-dom";
 import CartWidget from "../CartWidget/CartWidget";
+import Avatar from "../Avatar/Avatar";
 import { GiBlackKnightHelm } from "react-icons/gi";
 import {
   Box,
@@ -70,7 +71,7 @@ const Navbar = () => {
               ))}
             </HStack>
           </HStack>
-
+          <Avatar />
           <CartWidget totalCount={count} />
         </Flex>
 

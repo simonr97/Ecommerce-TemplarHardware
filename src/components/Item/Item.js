@@ -1,4 +1,4 @@
-import { useEffect, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { Link as RouteLink, useLocation } from "react-router-dom";
 import {
   Collapse,
@@ -11,11 +11,12 @@ import {
   Stack,
   Heading,
   Text,
-  Divider,
   ButtonGroup,
   Button,
+  Flex,
 } from "@chakra-ui/react";
 import { CartContext } from "../../context/CartContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Item = (productList) => {
   const [hover, setHover] = useState(false);
@@ -23,7 +24,9 @@ const Item = (productList) => {
   const { id, name, price, category, img, stock, description } =
     productList.product;
 
-  const { addItem, isInCart } = useContext(CartContext);
+  const { addItem } = useContext(CartContext);
+  const { subscribeToAuth } = useContext(AuthContext);
+  console.log(subscribeToAuth());
 
   const qty = 1;
 
@@ -50,9 +53,7 @@ const Item = (productList) => {
             <Heading isTruncated size="md">
               {name}
             </Heading>
-            {/* <Text noOfLines={3}>
-        {description}
-      </Text> */}
+            <Text noOfLines={3}>{stock >= 1 ? "En Stock" : "Sin Stock"}</Text>
             <Text colorScheme="black" fontSize="2xl">
               ${price}
             </Text>
@@ -83,6 +84,7 @@ const Item = (productList) => {
                     bg: useColorModeValue("green.300"),
                     color: "black",
                   }}
+                  disabled={!subscribeToAuth()}
                 >
                   Comprar
                 </Button>
@@ -104,7 +106,7 @@ const Item = (productList) => {
                   variant="ghost"
                   colorScheme="black"
                 >
-                  Agregar al carrito
+                  Agregar al Carrito
                 </Button>
               </RouteLink>
             </ButtonGroup>
