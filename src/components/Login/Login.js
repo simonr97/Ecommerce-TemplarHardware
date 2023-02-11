@@ -23,14 +23,22 @@ import { GiBlackKnightHelm } from "react-icons/gi";
 import { Link as RouteLink } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { useEffect, useContext, useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const { logInUser, subscribeToAuth, logOutUser, isUserLogged } =
-    useContext(AuthContext);
-  const [userData, setUserData] = useState({ email: "", password: "" });
+  const { logInUser, logOutUser, isUserLogged } = useContext(AuthContext);
   const { isOpen, onToggle } = useDisclosure();
+
   const inputRef = useRef(null);
+  const navigate = useNavigate();
+
+  const [userData, setUserData] = useState({ email: "", password: "" });
   const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    setIsLogged(isUserLogged());
+  }, [isUserLogged]);
+
   const onClickReveal = () => {
     onToggle();
     if (inputRef.current) {
@@ -39,9 +47,14 @@ const Login = () => {
       });
     }
   };
-  useEffect(() => {
-    setIsLogged(isUserLogged());
-  }, [isUserLogged]);
+
+  if (isUserLogged()) {
+    setTimeout(() => {
+      setIsLogged(true);
+      navigate("/");
+    }, 3000);
+  }
+
   return (
     <>
       {!isLogged ? (
@@ -107,6 +120,7 @@ const Login = () => {
                 base: "none",
                 sm: "xl",
               }}
+              bg="white"
             >
               <Stack spacing="6">
                 <Stack spacing="5">
@@ -160,7 +174,7 @@ const Login = () => {
                   <Button
                     onClick={() => {
                       logInUser(userData);
-                      setIsLogged(subscribeToAuth());
+                      setIsLogged(isUserLogged());
                       if (isLogged) {
                         console.log("is logged");
                       }
@@ -169,14 +183,14 @@ const Login = () => {
                   >
                     Sign in
                   </Button>
-                  <HStack>
+                  {/* <HStack>
                     <Divider borderColor="green.400" />
                     <Text fontSize="sm" whiteSpace="nowrap" color="muted">
                       or continue with
                     </Text>
                     <Divider borderColor="green.400" />
                   </HStack>
-                  <OAuthButtonGroup />
+                  <OAuthButtonGroup /> */}
                 </Stack>
               </Stack>
             </Box>

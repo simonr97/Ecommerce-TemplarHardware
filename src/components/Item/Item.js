@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 import { Link as RouteLink, useLocation } from "react-router-dom";
 import {
   Collapse,
@@ -13,22 +13,31 @@ import {
   Text,
   ButtonGroup,
   Button,
-  Flex,
 } from "@chakra-ui/react";
 import { CartContext } from "../../context/CartContext";
 import { AuthContext } from "../../context/AuthContext";
 
 const Item = (productList) => {
   const [hover, setHover] = useState(false);
+  const [isStock, setIsStock] = useState(false);
 
   const { id, name, price, category, img, stock, description } =
     productList.product;
 
   const { addItem } = useContext(CartContext);
-  const { subscribeToAuth } = useContext(AuthContext);
-  console.log(subscribeToAuth());
+  const { isUserLogged } = useContext(AuthContext);
 
   const qty = 1;
+
+  useEffect(() => {
+    if (stock >= 1) {
+      setIsStock(true);
+    } else {
+      setIsStock(false);
+    }
+  });
+
+  console.log(name, isStock);
 
   return (
     <RouteLink to={`/item/${id}`}>
@@ -53,7 +62,17 @@ const Item = (productList) => {
             <Heading isTruncated size="md">
               {name}
             </Heading>
-            <Text noOfLines={3}>{stock >= 1 ? "En Stock" : "Sin Stock"}</Text>
+            <Text noOfLines={3}>
+              {isStock ? (
+                <Text as="b" color="green">
+                  En Stock
+                </Text>
+              ) : (
+                <Text as="b" color="red">
+                  Sin Stock
+                </Text>
+              )}
+            </Text>
             <Text colorScheme="black" fontSize="2xl">
               ${price}
             </Text>
@@ -84,7 +103,7 @@ const Item = (productList) => {
                     bg: useColorModeValue("green.300"),
                     color: "black",
                   }}
-                  disabled={!subscribeToAuth()}
+                  disabled={!isUserLogged() || !isStock}
                 >
                   Comprar
                 </Button>
@@ -105,6 +124,7 @@ const Item = (productList) => {
                   }}
                   variant="ghost"
                   colorScheme="black"
+                  disabled={!isUserLogged() || !isStock}
                 >
                   Agregar al Carrito
                 </Button>

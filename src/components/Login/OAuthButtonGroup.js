@@ -15,13 +15,15 @@ const providers = [
   },
 ];
 
-export const OAuthButtonGroup = () => (
-  <ButtonGroup variant="outline" spacing="4" width="full">
-    {providers.map(({ name, icon }) => (
-      <Button key={name} width="full">
-        <VisuallyHidden>Sign in with {name}</VisuallyHidden>
-        {icon}
-      </Button>
-    ))}
-  </ButtonGroup>
-);
+export const OAuthButtonGroup = ({ handleOtherLogginMethod }) => {
+  return (
+    <ButtonGroup variant="outline" spacing="4" width="full">
+      {providers.map(({ name, icon }) => (
+        <Button key={name} width="full">
+          <VisuallyHidden>Sign in with {name}</VisuallyHidden>
+          {icon}
+        </Button>
+      ))}
+    </ButtonGroup>
+  );
+};

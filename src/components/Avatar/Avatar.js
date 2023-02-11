@@ -14,15 +14,15 @@ import { CartContext } from "../../context/CartContext";
 import { getProfilePic } from "../../services/Firebase/firestore/profilePic";
 
 const Avatar = () => {
-  const { subscribeToAuth, logOutUser, isUserLogged, updateProfilePic } =
+  const { getUserEmail, logOutUser, isUserLogged, updateProfilePic } =
     useContext(AuthContext);
   const { clear } = useContext(CartContext);
   const [isLogged, setIsLogged] = useState(false);
   const [userProfilePicture, setUserProfilePicture] = useState("test");
   useEffect(() => {
     setIsLogged(isUserLogged());
-  }, [isUserLogged, subscribeToAuth]);
-  getProfilePic(subscribeToAuth()).then((url) => setUserProfilePicture(url));
+  }, [isUserLogged]);
+  getProfilePic(getUserEmail()).then((url) => setUserProfilePicture(url));
   updateProfilePic(userProfilePicture);
   return (
     <HStack ml={650}>

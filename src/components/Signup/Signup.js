@@ -1,187 +1,242 @@
+import { useForm } from "react-hook-form";
 import {
+  FormErrorMessage,
+  FormLabel,
+  FormControl,
+  Input,
   Button,
   Container,
   Box,
   Stack,
-  FormControl,
-  FormLabel,
-  Heading,
-  Input,
-  Center,
-  AspectRatio,
+  InputGroup,
+  InputRightElement,
+  IconButton,
+  useDisclosure,
   Text,
+  Heading,
 } from "@chakra-ui/react";
-import { motion, useAnimation } from "framer-motion";
-import { Link as RouteLink } from "react-router-dom";
+import { HiEye, HiEyeOff } from "react-icons/hi";
 import { AuthContext } from "../../context/AuthContext";
 import { useContext, useState } from "react";
 import { uploadProfilePic } from "../../services/Firebase/firestore/profilePic";
+import { useRef, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
-const Signup = () => {
-  const { registerUser } = useContext(AuthContext);
-  const [userData, setUserData] = useState({
-    email: "",
-    password: "",
-  });
-  const [image, setImage] = useState("");
+export default function SignupTest() {
+  const { registerUser, isUserLogged } = useContext(AuthContext);
+  const { isOpen, onToggle } = useDisclosure();
+
+  const inputRef = useRef(null);
+  const navigate = useNavigate();
+
+  const [profilePicture, setProfilePicture] = useState("");
   const [url, setUrl] = useState("");
-  const handleImageChange = (e) => {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-      console.log(image);
+  const [isLogged, setIsLogged] = useState(false);
+
+  useEffect(() => {
+    setIsLogged(!isUserLogged());
+  }, [isUserLogged]);
+
+  const onClickReveal = () => {
+    onToggle();
+    if (inputRef.current) {
+      inputRef.current.focus({
+        preventScroll: true,
+      });
     }
   };
 
-  const handleSubmit = () => {
-    uploadProfilePic(image, setImage, setUrl, url, userData.email);
-  };
-  return (
-    <Container
-      maxW="lg"
-      py={{
-        base: "12",
-        md: "24",
-      }}
-      px={{
-        base: "0",
-        sm: "8",
-      }}
-    >
-      <Box
-        py={{
-          base: "0",
-          sm: "8",
-        }}
-        px={{
-          base: "4",
-          sm: "10",
-        }}
-        bg={{
-          base: "transparent",
-          sm: "bg-surface",
-        }}
-        boxShadow={{
-          base: "none",
-          sm: "md",
-        }}
-        borderRadius={{
-          base: "none",
-          sm: "xl",
-        }}
-      >
-        <Stack spacing="5">
-          <FormControl>
-            <FormLabel htmlFor="email">Email</FormLabel>
-            <Input
-              required
-              onChange={({ target }) =>
-                setUserData({ ...userData, email: target.value })
-              }
-              focusBorderColor="green.400"
-              placeholder="testemail@random.com"
-              id="email"
-              type="email"
-            />
-            <FormLabel my="3" htmlFor="password">
-              Password
-            </FormLabel>
-            <Input
-              required
-              onChange={({ target }) =>
-                setUserData({ ...userData, password: target.value })
-              }
-              focusBorderColor="green.400"
-              id="password"
-              type="password"
-            />
-            <FormLabel my="3" htmlFor="email">
-              Foto de Perfil
-            </FormLabel>
-            <Center my="3">
-              <AspectRatio width="32">
-                <Box
-                  borderColor="gray.300"
-                  borderStyle="dashed"
-                  borderWidth="2px"
-                  rounded="md"
-                  shadow="sm"
-                  role="group"
-                  transition="all 150ms ease-in-out"
-                  _hover={{
-                    shadow: "md",
-                  }}
-                  as={motion.div}
-                  initial="rest"
-                  animate="rest"
-                  whileHover="hover"
-                >
-                  <Box position="relative" height="100%" width="100%">
-                    <Box
-                      position="absolute"
-                      top="0"
-                      left="0"
-                      height="100%"
-                      width="100%"
-                      display="flex"
-                      flexDirection="column"
-                    >
-                      <Stack
-                        height="100%"
-                        width="100%"
-                        display="flex"
-                        alignItems="center"
-                        justify="center"
-                        spacing="4"
-                      >
-                        <Stack p="8" textAlign="center" spacing="1">
-                          <Text fontWeight="light">
-                            click para buscar la imagen
-                          </Text>
-                        </Stack>
-                      </Stack>
-                    </Box>
-                    <Input
-                      type="file"
-                      height="100%"
-                      width="100%"
-                      position="absolute"
-                      top="0"
-                      left="0"
-                      opacity="0"
-                      aria-hidden="true"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
-                  </Box>
-                </Box>
-              </AspectRatio>
-            </Center>
-            <Center>
-              <RouteLink to="/login">
-                <Button
-                  onClick={() => {
-                    registerUser(userData);
-                    handleSubmit();
-                  }}
-                  type="submit"
-                  mt={10}
-                  colorScheme={"green"}
-                  bg={"green.400"}
-                  rounded={"full"}
-                  px={6}
-                  _hover={{
-                    bg: "green.200",
-                  }}
-                >
-                  Registrarme
-                </Button>
-              </RouteLink>
-            </Center>
-          </FormControl>
-        </Stack>
-      </Box>
-    </Container>
-  );
-};
+  const {
+    handleSubmit,
+    register,
+    formState: { errors, isSubmitting },
+  } = useForm();
 
-export default Signup;
+  const handleImageChange = (e) => {
+    if (e.target.files[0]) {
+      setProfilePicture(e.target.files[0]);
+    }
+  };
+
+  function onSubmit(values) {
+    const { email, password } = values;
+
+    const userData = {
+      email: email,
+      password: password,
+    };
+
+    registerUser(userData);
+    uploadProfilePic(profilePicture, setProfilePicture, setUrl, url, email);
+    if (!isUserLogged()) {
+      setTimeout(() => {
+        setIsLogged(true);
+        navigate("/");
+      }, 3000);
+    }
+  }
+
+  return (
+    <>
+      {isLogged ? (
+        <Container
+          maxW="lg"
+          py={{
+            base: "12",
+            md: "24",
+          }}
+          px={{
+            base: "0",
+            sm: "8",
+          }}
+        >
+          <Box
+            py={{
+              base: "0",
+              sm: "8",
+            }}
+            px={{
+              base: "4",
+              sm: "10",
+            }}
+            bg={{
+              base: "transparent",
+              sm: "bg-surface",
+            }}
+            boxShadow={{
+              base: "none",
+              sm: "md",
+            }}
+            borderRadius={{
+              base: "none",
+              sm: "xl",
+            }}
+            bg="white"
+          >
+            <Stack spacing="5">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <FormControl isInvalid={errors.email}>
+                  <FormLabel htmlFor="email">Email</FormLabel>
+                  <Input
+                    focusBorderColor="green.400"
+                    type="email"
+                    id="email"
+                    placeholder="email"
+                    {...register("email", {
+                      required: "This is required",
+                      minLength: {
+                        value: 4,
+                        message: "Minimum length should be 4",
+                      },
+                    })}
+                  />
+                  <FormErrorMessage>
+                    {errors.email && errors.email.message}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl isInvalid={errors.password}>
+                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <InputGroup>
+                    <InputRightElement>
+                      <IconButton
+                        variant="link"
+                        aria-label={
+                          isOpen ? "Mask password" : "Reveal password"
+                        }
+                        icon={isOpen ? <HiEyeOff /> : <HiEye />}
+                        onClick={onClickReveal}
+                      />
+                    </InputRightElement>
+                    <Input
+                      focusBorderColor="green.400"
+                      id="password"
+                      placeholder="password"
+                      {...register("password", {
+                        required: "This is required",
+                        minLength: {
+                          value: 6,
+                          message: "Minimum length should be 6",
+                        },
+                      })}
+                      name="password"
+                      type={isOpen ? "text" : "password"}
+                      autoComplete="current-password"
+                      required
+                    />
+                  </InputGroup>
+                  <FormErrorMessage>
+                    {errors.password && errors.password.message}
+                  </FormErrorMessage>
+                </FormControl>
+                <FormControl>
+                  <FormLabel htmlFor="image">Imagen de Perfil</FormLabel>
+                  <Input
+                    variant="flushed"
+                    focusBorderColor="green.400"
+                    type="file"
+                    id="image"
+                    placeholder="password"
+                    {...register("image", {
+                      required: "This is required",
+                      message: "Este campo es requerido",
+                    })}
+                    onChange={handleImageChange}
+                  />
+                </FormControl>
+
+                <Button
+                  mt={4}
+                  colorScheme="teal"
+                  isLoading={isSubmitting}
+                  type="submit"
+                >
+                  Registrarse
+                </Button>
+              </form>
+            </Stack>
+          </Box>
+        </Container>
+      ) : (
+        <Box
+          bg="white"
+          maxW={{ base: "3xl", lg: "7xl" }}
+          mx="auto"
+          px={{ base: "4", md: "8", lg: "12" }}
+          py={{ base: "6", md: "8", lg: "12" }}
+          boxShadow="md"
+        >
+          <Container maxW={"3xl"}>
+            <Stack
+              as={Box}
+              textAlign={"center"}
+              spacing={{ base: 8, md: 14 }}
+              py={{ base: 20, md: 36 }}
+            >
+              <Heading
+                fontWeight={600}
+                fontSize={{ base: "2xl", sm: "4xl", md: "6xl" }}
+                lineHeight={"110%"}
+              >
+                Registro Exitoso
+                <br />
+                <Text as={"span"} color={"green.400"}>
+                  Ahora a Comprar!
+                </Text>
+              </Heading>
+              <Text color={"gray.500"}>
+                Sera redirigido a la pagina principal
+              </Text>
+              <Stack
+                direction={"column"}
+                spacing={3}
+                align={"center"}
+                alignSelf={"center"}
+                position={"relative"}
+              ></Stack>
+            </Stack>
+          </Container>
+        </Box>
+      )}
+    </>
+  );
+}

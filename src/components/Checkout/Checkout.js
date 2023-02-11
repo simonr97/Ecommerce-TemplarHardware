@@ -20,8 +20,10 @@ import {
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
 import { db } from "../../services/Firebase/firebaseConfig";
+import { AuthContext } from "../../context/AuthContext";
 const Checkout = () => {
   const { cart, clear } = useContext(CartContext);
+  const { getUserEmail } = useContext(AuthContext);
   const [total, setTotal] = useState(0);
   const [orderId, setOrderId] = useState("");
   const [loading, setLoading] = useState(false);
@@ -49,9 +51,7 @@ const Checkout = () => {
     try {
       const objOrder = {
         buyer: {
-          name: "Simon Rodriguez",
-          phone: "3464594853",
-          email: "simon.rodriguez.1997@gmail.com",
+          email: getUserEmail(),
         },
         items: cart,
         total,

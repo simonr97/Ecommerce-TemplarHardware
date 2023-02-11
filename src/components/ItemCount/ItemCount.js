@@ -7,8 +7,7 @@ const ItemCount = ({ stock, onAdd, onBuy, id }) => {
   const [count, setCount] = useState(1);
   const [disableBuy, setDisableBuy] = useState(false);
   const { cart } = useContext(CartContext);
-  const { subscribeToAuth } = useContext(AuthContext);
-  console.log(subscribeToAuth());
+  const { isUserLogged } = useContext(AuthContext);
   let quantity = 0;
   if (cart[cart.findIndex((p) => p.id === id)]) {
     const { qty } = cart[cart.findIndex((p) => p.id === id)];
@@ -65,7 +64,7 @@ const ItemCount = ({ stock, onAdd, onBuy, id }) => {
           bg: useColorModeValue("green.300"),
           color: "black",
         }}
-        disabled={disableBuy || !subscribeToAuth()}
+        disabled={disableBuy || !isUserLogged()}
         onClick={() => onAdd(count)}
       >
         Agregar

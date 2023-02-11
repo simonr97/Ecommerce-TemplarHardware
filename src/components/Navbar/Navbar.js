@@ -17,7 +17,7 @@ import {
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import { CartContext } from "../../context/CartContext";
 
-const Links = ["Fuente", "Motherboard", "Microprocesador", "Placa de Video"];
+const Links = ["Fuente", "Motherboard", "Microprocesador", "Graphics"];
 
 const NavLink = ({ children }: { children: ReactNode }) => (
   <RouteNavLink
@@ -71,8 +71,10 @@ const Navbar = () => {
               ))}
             </HStack>
           </HStack>
-          <Avatar />
-          <CartWidget totalCount={count} />
+          <HStack justifyContent={"space-between"}>
+            <CartWidget totalCount={count} />
+            <Avatar />
+          </HStack>
         </Flex>
 
         {isOpen ? (

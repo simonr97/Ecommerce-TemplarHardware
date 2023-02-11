@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Head from "next/head";
 import ItemList from "../ItemList/ItemList.js";
+import Toast from "../Toast/Toast.js";
 import { Box, Heading, Container, Text, Stack } from "@chakra-ui/react";
 import { getDocs, collection, query, where } from "firebase/firestore";
 import { db } from "../../services/Firebase/firebaseConfig";
@@ -60,8 +61,8 @@ const ItemListContainer = ({ welcomeText1, welcomeText2 }) => {
           <Text color={"gray.500"}>Work in Progress</Text>
         </Stack>
         <ItemList products={products} loading={loading} />
+        <Toast />
       </Container>
-      <Container maxW="container.full"></Container>
     </>
   );
 };

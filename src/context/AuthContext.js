@@ -68,13 +68,12 @@ export const AuthProvider = ({ children }) => {
     return isLogged;
   };
 
-  const subscribeToAuth = () => {
+  const getUserEmail = () => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user.email);
       }
     });
-    console.log(user);
     return user;
   };
 
@@ -91,7 +90,7 @@ export const AuthProvider = ({ children }) => {
         logOutUser,
         sendPasswordResetEmail,
         loginWithGoogle,
-        subscribeToAuth,
+        getUserEmail,
         updateProfilePic,
         isUserLogged,
       }}
